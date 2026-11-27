@@ -2,6 +2,7 @@ const CACHE_NAME = 'neon-pong-pwa-v1';
 
 const CORE_ASSETS = [
   './',
+  './index.html',
   './PONG-Game.html',
   './PONG-Game.html.html'
 ];
@@ -13,7 +14,7 @@ self.addEventListener('install', (event) => {
         try {
           await cache.add(asset);
         } catch (_) {
-          // Skip assets that don't exist under that exact filename
+          // Ignore filenames that aren't in the folder
         }
       }
     })
@@ -45,6 +46,7 @@ self.addEventListener('fetch', (event) => {
       caches.match(event.request).then(
         (cached) =>
           cached ||
+          caches.match('./index.html') ||
           caches.match('./PONG-Game.html') ||
           caches.match('./PONG-Game.html.html') ||
           caches.match('./') ||
